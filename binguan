@@ -1,0 +1,384 @@
+#include<stdio.h>
+#include<string.h>
+typedef struct hotel
+{
+    int number;//房间号码
+    int price;//房间价格
+    char hux;//房间户型
+} HOTEL;
+void Print(HOTEL p[],int n);
+void NumberSort(HOTEL p[],int n);
+void RankSort(HOTEL p[],int n);
+void PriceSort(HOTEL p[],int n);
+int NumberSearch(HOTEL p[],int x,int n);
+int RankSearch(HOTEL p[],char y,int n);
+int PriceSearch(HOTEL p[],int z,int n);
+int main()
+{
+    int r,n,a,b,c,hao,jia;
+    char den;
+    HOTEL d[100000]= {};
+    while(1)
+    {
+        printf("\t\t\t\t------欢迎使用管理系统-------\n");
+        printf("\t\t\t\t-----------------------------\n");
+        printf("\t\t\t\t-1.输入房间信息             -\n");
+        printf("\t\t\t\t-2.输出房间信息             -\n");
+        printf("\t\t\t\t-3.按房间号码排序           -\n");
+        printf("\t\t\t\t-4.按房间户型排序           -\n");
+        printf("\t\t\t\t-5.按房间价格排序           -\n");
+        printf("\t\t\t\t-6.按房间号码查找           -\n");
+        printf("\t\t\t\t-7.按房间户型查找           -\n");
+        printf("\t\t\t\t-8.按房间价格查找           -\n");
+        printf("\t\t\t\t-0.退出                     -\n");
+        printf("\t\t\t\t-----------------------------\n");
+        printf("请输入您的选择:");
+        scanf("%d",&r);
+        switch(r)
+        {
+        case 1:
+            printf("请输入房间个数:");
+            scanf("%d",&n);
+            Input(d,n);
+            break;
+        case 2:
+            Print(d,n);
+            break;
+        case 3:
+            NumberSort(d,n);
+            Print(d,n);
+            break;
+        case 4:
+            RankSort(d,n);
+            Print(d,n);
+            break;
+        case 5:
+            PriceSort(d,n);
+            Print(d,n);
+            break;
+        case 6:
+            printf("请输入房间号码:");
+            scanf("%d",&a);
+            hao=NumberSearch(d,a,n);
+            if(hao!=-1)
+                printf("房间号：%d,房间户型：%c,房间价格：%d\n",d[hao].number,d[hao].hux,d[hao].price);
+            else
+                printf("Not find it!\n");
+            break;
+        case 7:
+            printf("请输入房间户型:");
+            scanf("%c",&b);
+            den=RankSearch(d,b,n);
+            if(den==-1)
+                printf("Not find it!\n");
+            break;
+        case 8:
+            printf("请输入房间价格:");
+            scanf("%d",&c);
+            jia=PriceSearch(d,c,n);
+            if(jia==-1)
+                printf("Not find it!\n");
+            break;
+        case 0:
+            return 0;
+        default:
+            printf("Input error!\nPlease input again\n");
+        }
+    }
+}
+void Input(HOTEL p[],int n)
+{
+    int i;
+    printf("请依次输入房间号码(六位数字),房间户型(A~E)和房间价格(100~300):\n");
+    for(i=0; i<n; i++)
+    {
+        scanf("%d",&p[i].number);
+        scanf(" %c",&p[i].hux);
+        scanf("%d",&p[i].price);
+    }
+}
+void Print(HOTEL p[],int n)
+{
+    int i;
+    for(i=0; i<n; i++)
+    {
+        printf("房间号：%d,房间户型：%c,房间价格：%d\n",p[i].number,p[i].hux,p[i].price);
+    }
+}
+void NumberSort(HOTEL p[],int n)
+{
+    int i,j,temp;
+    for(i=0; i<n-1; i++)
+    {
+        for(j=i+1; j<n; j++)
+        {
+            if(p[j].number>p[i].number)
+            {
+                temp=p[j].number;
+                p[j].number=p[i].number;
+                p[i].number=temp;
+            }
+        }
+    }
+}
+void RankSort(HOTEL p[],int n)
+{
+    int i,j;
+    char temp;
+    for(i=0; i<n-1; i++)
+    {
+        for(j=i+1; j<n; j++)
+        {
+            if(p[j].hux>p[i].hux)
+            {
+                temp=p[j].hux;
+                p[j].hux=p[i].hux;
+                p[i].hux=temp;
+            }
+        }
+    }
+}
+void PriceSort(HOTEL p[],int n)
+{
+    int i,j,temp;
+    for(i=0; i<n-1; i++)
+    {
+        for(j=i+1; j<n; j++)
+        {
+            if(p[j].price>p[i].price)
+            {
+                temp=p[j].price;
+                p[j].price=p[i].price;
+                p[i].price=temp;
+            }
+        }
+    }
+}
+int NumberSearch(HOTEL p[],int x,int n)
+{
+    int i,a=0;
+    for(i=0; i<n; i++)
+    {
+        if(p[i].number==x)
+        {
+            return i;
+            a=1;
+        }
+    }
+    if(a=0)
+        return -1;
+}
+int RankSearch(HOTEL p[],char y,int n)
+{
+    int i,a=0;
+    for(i=0; i<n; i++)
+    {
+        if(p[i].hux==y)
+        {
+            printf("房间号：%d,房间户型：%c,房间价格：%d\n",p[i].number,p[i].hux,p[i].price);
+            a=1;
+        }
+    }
+    if(a=0)
+        return -1;
+}
+int PriceSearch(HOTEL p[],int z,int n)
+{
+    int i,a=0;
+    for(i=0; i<n; i++)
+    {
+        if(p[i].price==z)
+            printf("房间号：%d,房间户型：%c,房间价格：%d\n",p[i].number,p[i].hux,p[i].price);
+            a=1;
+    }
+    if(a=0)
+    return -1;
+}
+void Print(HOTEL p[],int n);
+void NumberSort(HOTEL p[],int n);
+void RankSort(HOTEL p[],int n);
+void PriceSort(HOTEL p[],int n);
+int NumberSearch(HOTEL p[],int x,int n);
+int RankSearch(HOTEL p[],char y,int n);
+int PriceSearch(HOTEL p[],int z,int n);
+int main()
+{
+    int r,n,a,b,c,hao,jia;
+    char den;
+    HOTEL d[100000]= {};
+    while(1)
+    {
+        printf("\t\t\t\t------欢迎使用管理系统-------\n");
+        printf("\t\t\t\t-----------------------------\n");
+        printf("\t\t\t\t-1.输入房间信息             -\n");
+        printf("\t\t\t\t-2.输出房间信息             -\n");
+        printf("\t\t\t\t-3.按房间号码排序           -\n");
+        printf("\t\t\t\t-4.按房间户型排序           -\n");
+        printf("\t\t\t\t-5.按房间价格排序           -\n");
+        printf("\t\t\t\t-6.按房间号码查找           -\n");
+        printf("\t\t\t\t-7.按房间户型查找           -\n");
+        printf("\t\t\t\t-8.按房间价格查找           -\n");
+        printf("\t\t\t\t-0.退出                     -\n");
+        printf("\t\t\t\t-----------------------------\n");
+        printf("请输入您的选择:");
+        scanf("%d",&r);
+        switch(r)
+        {
+        case 1:
+            printf("请输入房间个数:");
+            scanf("%d",&n);
+            Input(d,n);
+            break;
+        case 2:
+            Print(d,n);
+            break;
+        case 3:
+            NumberSort(d,n);
+            Print(d,n);
+            break;
+        case 4:
+            RankSort(d,n);
+            Print(d,n);
+            break;
+        case 5:
+            PriceSort(d,n);
+            Print(d,n);
+            break;
+        case 6:
+            printf("请输入房间号码:");
+            scanf("%d",&a);
+            hao=NumberSearch(d,a,n);
+            if(hao!=-1)
+                printf("房间号：%d,房间户型：%c,房间价格：%d\n",d[hao].number,d[hao].hux,d[hao].price);
+            else
+                printf("Not find it!\n");
+            break;
+        case 7:
+            printf("请输入房间户型:");
+            scanf("%c",&b);
+            den=RankSearch(d,b,n);
+            if(den==-1)
+                printf("Not find it!\n");
+            break;
+        case 8:
+            printf("请输入房间价格:");
+            scanf("%d",&c);
+            jia=PriceSearch(d,c,n);
+            if(jia==-1)
+                printf("Not find it!\n");
+            break;
+        case 0:
+            return 0;
+        default:
+            printf("Input error!\nPlease input again\n");
+        }
+    }
+}
+void Input(HOTEL p[],int n)
+{
+    int i;
+    printf("请依次输入房间号码(六位数字),房间户型(A~E)和房间价格(100~300):\n");
+    for(i=0; i<n; i++)
+    {
+        scanf("%d",&p[i].number);
+        scanf(" %c",&p[i].hux);
+        scanf("%d",&p[i].price);
+    }
+}
+void Print(HOTEL p[],int n)
+{
+    int i;
+    for(i=0; i<n; i++)
+    {
+        printf("房间号：%d,房间户型：%c,房间价格：%d\n",p[i].number,p[i].hux,p[i].price);
+    }
+}
+void NumberSort(HOTEL p[],int n)
+{
+    int i,j,temp;
+    for(i=0; i<n-1; i++)
+    {
+        for(j=i+1; j<n; j++)
+        {
+            if(p[j].number>p[i].number)
+            {
+                temp=p[j].number;
+                p[j].number=p[i].number;
+                p[i].number=temp;
+            }
+        }
+    }
+}
+void RankSort(HOTEL p[],int n)
+{
+    int i,j;
+    char temp;
+    for(i=0; i<n-1; i++)
+    {
+        for(j=i+1; j<n; j++)
+        {
+            if(p[j].hux>p[i].hux)
+            {
+                temp=p[j].hux;
+                p[j].hux=p[i].hux;
+                p[i].hux=temp;
+            }
+        }
+    }
+}
+void PriceSort(HOTEL p[],int n)
+{
+    int i,j,temp;
+    for(i=0; i<n-1; i++)
+    {
+        for(j=i+1; j<n; j++)
+        {
+            if(p[j].price>p[i].price)
+            {
+                temp=p[j].price;
+                p[j].price=p[i].price;
+                p[i].price=temp;
+            }
+        }
+    }
+}
+int NumberSearch(HOTEL p[],int x,int n)
+{
+    int i,a=0;
+    for(i=0; i<n; i++)
+    {
+        if(p[i].number==x)
+        {
+            return i;
+            a=1;
+        }
+    }
+    if(a=0)
+        return -1;
+}
+int RankSearch(HOTEL p[],char y,int n)
+{
+    int i,a=0;
+    for(i=0; i<n; i++)
+    {
+        if(p[i].hux==y)
+        {
+            printf("房间号：%d,房间户型：%c,房间价格：%d\n",p[i].number,p[i].hux,p[i].price);
+            a=1;
+        }
+    }
+    if(a=0)
+        return -1;
+}
+int PriceSearch(HOTEL p[],int z,int n)
+{
+    int i,a=0;
+    for(i=0; i<n; i++)
+    {
+        if(p[i].price==z)
+            printf("房间号：%d,房间户型：%c,房间价格：%d\n",p[i].number,p[i].hux,p[i].price);
+            a=1;
+    }
+    if(a=0)
+    return -1;
+}
